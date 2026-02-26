@@ -1,6 +1,7 @@
 # Inventory Management System
 
-Live Demo: https://inventory-bup2vtpw3-noraphutbuathong18s-projects.vercel.app
+Live Demo:
+👉 https://inventory-bup2vtpw3-noraphutbuathong18s-projects.vercel.app
 
 ## Default Login
 Username: admin  
