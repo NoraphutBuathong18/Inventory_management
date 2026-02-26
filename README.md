@@ -1,5 +1,12 @@
 # Inventory Management System
 
+Live Demo:
+👉 https://inventory-bup2vtpw3-noraphutbuathong18s-projects.vercel.app
+
+## Default Login
+Username: admin  
+Password: admin123
+
 Full-stack admin panel for product inventory management.
 
 ## Tech Stack
