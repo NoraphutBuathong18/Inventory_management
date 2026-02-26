@@ -13,9 +13,13 @@ connectDB();
 
 // ── Middleware ──────────────────────────────────────────────
 app.use(cors({
-    origin: ['http://localhost:5173',
-        'http://localhost:3000',
-        'https://inventorymanagement-fvuup7t3l-noraphutbuathong18s-projects.vercel.app'],
+    origin: function (origin, callback) {
+        if (!origin || /vercel\.app$/.test(origin) || origin.startsWith('http://localhost') || /onrender\.com$/.test(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
 app.use(express.json());
