@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const db = require('../config/db');
+const User = require('../models/User');
 require('dotenv').config();
 
 // POST /api/auth/login
@@ -13,16 +13,13 @@ const login = async (req, res) => {
         }
 
         // Find user by username or email
-        const [rows] = await db.query(
-            'SELECT * FROM users WHERE username = ? OR email = ?',
-            [username, username]
-        );
+        const user = await User.findOne({
+            $or: [{ username }, { email: username }]
+        });
 
-        if (rows.length === 0) {
+        if (!user) {
             return res.status(401).json({ message: 'Invalid credentials.' });
         }
-
-        const user = rows[0];
 
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password_hash);
@@ -32,7 +29,7 @@ const login = async (req, res) => {
 
         // Generate JWT
         const payload = {
-            id: user.id,
+            id: user._id,
             username: user.username,
             email: user.email,
             role: user.role,
@@ -46,7 +43,7 @@ const login = async (req, res) => {
             message: 'Login successful.',
             token,
             user: {
-                id: user.id,
+                id: user._id,
                 username: user.username,
                 email: user.email,
                 role: user.role,
@@ -66,14 +63,11 @@ const logout = (req, res) => {
 // GET /api/auth/me
 const getMe = async (req, res) => {
     try {
-        const [rows] = await db.query(
-            'SELECT id, username, email, role, created_at FROM users WHERE id = ?',
-            [req.user.id]
-        );
-        if (rows.length === 0) {
+        const user = await User.findById(req.user.id).select('-password_hash');
+        if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
-        res.status(200).json({ user: rows[0] });
+        res.status(200).json({ user });
     } catch (error) {
         console.error('Get me error:', error);
         res.status(500).json({ message: 'Internal server error.' });
