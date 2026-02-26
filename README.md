@@ -1,5 +1,11 @@
 # Inventory Management System
 
+Live Demo: https://inventory-bup2vtpw3-noraphutbuathong18s-projects.vercel.app
+
+## Default Login
+Username: admin  
+Password: admin123
+
 Full-stack admin panel for product inventory management.
 
 ## Tech Stack
@@ -7,6 +13,11 @@ Full-stack admin panel for product inventory management.
 - **Backend**: Node.js + Express
 - **Database**: MySQL
 - **Auth**: JWT + bcryptjs
+
+## Deployment
+- Frontend: Vercel
+- Backend: Render
+- Database: MySQL
 
 ## Project Structure
 ```
@@ -29,12 +40,9 @@ Inventory Management System/
 
 ## Setup Instructions
 
-### Step 1 — MySQL Database
-Open MySQL Workbench or MySQL CLI and run:
-```sql
-CREATE DATABASE inventory_db;
-USE inventory_db;
-SOURCE path/to/backend/database/schema.sql;
+### Step 1 — MongoDB Atlas
+```bash
+# Create a MongoDB Atlas cluster and copy your connection string
 ```
 
 ### Step 2 — Backend
@@ -44,6 +52,9 @@ npm install
 # Edit .env and set your MySQL password in DB_PASSWORD
 npm run dev
 # API running at http://localhost:5000
+# PORT=5000
+# MONGO_URI=your_mongodb_connection_string
+# JWT_SECRET=your_secret_key
 ```
 
 ### Step 3 — Frontend
@@ -53,6 +64,14 @@ npm install
 npm run dev
 # App running at http://localhost:5173
 ```
+### Deployment Architecture
+User (Browser)
+     ↓
+Vercel (React Frontend)
+     ↓
+Render (Express API)
+     ↓
+MongoDB Atlas (Database)
 
 ## Default Login
 | Field    | Value         |
